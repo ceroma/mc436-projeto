@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "_default": {
+            "link": "mc436-projeto"
+        },
+        "mc436-projeto": {
+            "applicationId": "XXX",
+            "masterKey": "YYY"
+        }
+    }
+}
