@@ -2,6 +2,12 @@
 var express = require('express');
 var app = express();
 
+// Controllers
+var homeController = require('cloud/controllers/home.js');
+var logInController = require('cloud/controllers/login.js');
+var logOutController = require('cloud/controllers/logout.js');
+var signUpController = require('cloud/controllers/signup.js');
+
 // HTTPS and Cookie middlewares
 var parseExpressHttpsRedirect = require('parse-express-https-redirect');
 var parseExpressCookieSession = require('parse-express-cookie-session');
@@ -20,76 +26,19 @@ app.get('/hello', function(req, res) {
   res.render('hello', { message: 'Congrats, you just set up your app!' });
 });
 
-// Sign Up Screen
-app.get('/signup', function(req, res) {
-  res.render('signup');
-});
+// Sign Up
+app.get('/signup', signUpController.index);
+app.post('/signup', signUpController.createNewUser);
 
-// Sign Up Controller
-app.post('/signup', function(req, res) {
-  var newUser = new Parse.User();
-  newUser.set("firstName", req.body.firstname);
-  newUser.set("lastName", req.body.lastname);
-  newUser.set("username", req.body.username);
-  newUser.set("password", req.body.password);
+// Log In
+app.get('/login', logInController.index);
+app.post('/login', logInController.logIn);
 
-  // Create new user
-  newUser.signUp(null, {
-    success: function(user) {
-      // Say hello to new user
-      res.render('hello', { message: 'Hello, ' + user.get("firstName") });
-    },
-    error: function(user, error) {
-      // Redirect back to Sign Up form
-      res.redirect('/signup');
-    }
-  });
-});
+// Log Out
+app.get('/logout', logOutController.logOut);
 
-// Log In Screen
-app.get('/login', function(req, res) {
-  res.render('login');
-});
-
-// Log In Controller
-app.post('/login', function(req, res) {
-  Parse.User.logIn(req.body.username, req.body.password).then(function() {
-    // If login succeeds, redirect to main screen
-    res.redirect('/');
-  },
-  function(error) {
-    // If login fails, show login form again
-    res.redirect('/login');
-  });
-});
-
-// Log Out Controller
-app.get('/logout', function(req, res) {
-  if (Parse.User.current()) {
-    Parse.User.logOut();
-  }
-
-  res.redirect('/');
-});
-
-// Main Screen
-// Says hello if user is logged in, otherwise redirect to login form
-app.get('/', function(req, res) {
-  if (Parse.User.current()) {
-    // Fetch user object and say hello
-    Parse.User.current().fetch().then(function(user) {
-      // Say hello to user
-      res.render('hello', { message: 'Hello, ' + user.get("firstName") });
-    },
-    function(error) {
-      // Show error message
-      alert("Erro: " + error.code + " - " + error.message);
-    });
-  } else {
-    // Redirect to login
-    res.redirect('/login');
-  }
-});
+// Home Screen
+app.get('/', homeController.index);
 
 // Attach the Express app to Cloud Code.
 app.listen();
