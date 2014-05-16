@@ -40,10 +40,46 @@ app.post('/signup', function(req, res) {
       res.render('hello', { message: 'Hello, ' + user.get("firstName") });
     },
     error: function(user, error) {
-      // Show error message
-      alert("Erro: " + error.code + " - " + error.message);
+      // Redirect back to Sign Up form
+      res.redirect('/signup');
     }
   });
+});
+
+// Log In Screen
+app.get('/login', function(req, res) {
+  res.render('login');
+});
+
+// Log In Controller
+app.post('/login', function(req, res) {
+  Parse.User.logIn(req.body.username, req.body.password).then(function() {
+    // If login succeeds, redirect to main screen
+    res.redirect('/');
+  },
+  function(error) {
+    // If login fails, show login form again
+    res.redirect('/login');
+  });
+});
+
+// Main Screen
+// Says hello if user is logged in, otherwise redirect to login form
+app.get('/', function(req, res) {
+  if (Parse.User.current()) {
+    // Fetch user object and say hello
+    Parse.User.current().fetch().then(function(user) {
+      // Say hello to user
+      res.render('hello', { message: 'Hello, ' + user.get("firstName") });
+    },
+    function(error) {
+      // Show error message
+      alert("Erro: " + error.code + " - " + error.message);
+    });
+  } else {
+    // Redirect to login
+    res.redirect('/login');
+  }
 });
 
 // Attach the Express app to Cloud Code.
