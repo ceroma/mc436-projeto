@@ -7,5 +7,8 @@
             "applicationId": "XXX",
             "masterKey": "YYY"
         }
+    },
+    "global": {
+        "parseVersion": "1.2.18"
     }
 }
