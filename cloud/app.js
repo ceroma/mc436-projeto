@@ -63,6 +63,15 @@ app.post('/login', function(req, res) {
   });
 });
 
+// Log Out Controller
+app.get('/logout', function(req, res) {
+  if (Parse.User.current()) {
+    Parse.User.logOut();
+  }
+
+  res.redirect('/');
+});
+
 // Main Screen
 // Says hello if user is logged in, otherwise redirect to login form
 app.get('/', function(req, res) {
