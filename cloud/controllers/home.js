@@ -5,7 +5,8 @@ exports.index = function(req, res) {
     // Fetch user object and say hello
     Parse.User.current().fetch().then(function(user) {
       // Say hello to user
-      res.render('hello', { message: 'Hello, ' + user.get("firstName") });
+      var first_name = user.get('name').split(' ')[0];
+      res.render('hello', { message: 'Hello, ' + first_name + '!' });
     },
     function(error) {
       // Show error message

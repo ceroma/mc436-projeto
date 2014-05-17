@@ -5,9 +5,7 @@ var crypto = require('crypto');
 var FORM_FIELDS = JSON.stringify(
   [
     {'name': 'name'},
-    {'name': 'first_name'},
-    {'name': 'last_name'},
-    {'name': 'username', 'description': 'Nome de Usuário', 'type': 'text'},
+    {'name': 'email'},
     {'name': 'password'},
     {'name': 'captcha'}
   ]
@@ -28,16 +26,16 @@ exports.createNewUser = function(req, res) {
   }
 
   var new_user = new Parse.User();
-  new_user.set("firstName", registration_data.first_name);
-  new_user.set("lastName", registration_data.last_name);
-  new_user.set("username", registration_data.username);
+  new_user.set("name", registration_data.name);
+  new_user.set("email", registration_data.email);
+  new_user.set("username", registration_data.email);
   new_user.set("password", registration_data.password);
 
   // Create new user
   new_user.signUp(null, {
     success: function(user) {
       // Say hello to new user
-      res.render('hello', { message: 'Hello, ' + user.get("firstName") });
+      res.redirect('/');
     },
     error: function(user, error) {
       // Redirect back to Sign Up form

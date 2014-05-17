@@ -29,7 +29,7 @@
     <div id="fb-root"></div>
 
     <form method="post" action="/login">
-      <input name="username" placeholder="Nome de Usuário" type="text">
+      <input name="username" placeholder="E-mail" type="email">
       <input name="password" placeholder="Senha" type="password">
       <input type="submit" value="Entrar">
     </form>
@@ -40,13 +40,13 @@
     <!-- Log In With Facebook -->
     <script>
       $('#fblogin').click(function() {
-        Parse.FacebookUtils.logIn(null, {
+        Parse.FacebookUtils.logIn("email", {
           success: function(user) {
             // If it's a new user, fetch more data through GraphAPI
             if (!user.existed()) {
-              FB.api('/me', function(response) {
-                user.set('firstName', response.first_name);
-                user.set('lastName', response.last_name);
+              FB.api('/me?fields=name,email', function(response) {
+                user.set('name', response.name);
+                user.set('email', response.email);
                 user.save();
               });
             }
