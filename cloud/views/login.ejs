@@ -2,14 +2,65 @@
 <html>
   <head>
     <title>Entrar</title>
+    <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   </head>
   <body>
+    <!-- Facebook SDK -->
+    <script>
+      Parse.initialize("XXX", "ZZZ");
+
+      window.fbAsyncInit = function() {
+        Parse.FacebookUtils.init({
+          appId      : 'FACEBOOK_APP_ID', // Facebook App ID
+          cookie     : true, // To allow Parse to access the session
+          xfbml      : true, // Parse XFBML
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div id="fb-root"></div>
+
     <form method="post" action="/login">
       <input name="username" placeholder="Nome de Usuário" type="text">
       <input name="password" placeholder="Senha" type="password">
-      <br />
       <input type="submit" value="Entrar">
-      <a href="/signup">Cadastrar</a>
     </form>
+    <a id="fblogin" href="#">Entrar com Facebook</a>
+    <br />
+    <a href="/signup">Cadastrar</a>
+
+    <!-- Log In With Facebook -->
+    <script>
+      $('#fblogin').click(function() {
+        Parse.FacebookUtils.logIn(null, {
+          success: function(user) {
+            // If it's a new user, fetch more data through GraphAPI
+            if (!user.existed()) {
+              FB.api('/me', function(response) {
+                user.set('firstName', response.first_name);
+                user.set('lastName', response.last_name);
+                user.save();
+              });
+            }
+
+            // Authenticate on server-side
+            $.post(
+              '/login-facebook',
+              {token: user.getSessionToken()},
+              function(data, status) { window.location = "/"; }
+            );
+          }
+        });
+        return false;
+      });
+    </script>
   </body>
 </html>

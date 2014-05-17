@@ -33,6 +33,7 @@ app.post('/signup', signUpController.createNewUser);
 // Log In
 app.get('/login', logInController.index);
 app.post('/login', logInController.logIn);
+app.post('/login-facebook', logInController.logInFacebook);
 
 // Log Out
 app.get('/logout', logOutController.logOut);

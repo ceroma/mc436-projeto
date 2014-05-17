@@ -14,3 +14,15 @@ exports.logIn = function(req, res) {
     res.redirect('/login');
   });
 };
+
+// Logs User In Via Facebook
+exports.logInFacebook = function(req, res) {
+  Parse.User.become(req.body.token).then(function() {
+    // The current user was changed successfully
+    res.send();
+  },
+  function(error) {
+    // Something went wrong
+    res.send();
+  });
+};
