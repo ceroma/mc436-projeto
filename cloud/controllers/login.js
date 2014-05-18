@@ -1,5 +1,11 @@
 // Renders Log In Screen
 exports.index = function(req, res) {
+  // If user is already logged in, redirect to main screen
+  if (Parse.User.current()) {
+    res.redirect('/');
+    return;
+  }
+
   res.render('login');
 };
 

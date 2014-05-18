@@ -13,6 +13,12 @@ var FORM_FIELDS = JSON.stringify(
 
 // Renders Sign Up Screen
 exports.index = function(req, res) {
+  // If user is already logged in, redirect to main screen
+  if (Parse.User.current()) {
+    res.redirect('/');
+    return;
+  }
+
   res.render('signup', { form_fields : FORM_FIELDS });
 };
 
