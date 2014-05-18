@@ -34,7 +34,7 @@ exports.createNewUser = function(req, res) {
   // Create new user
   new_user.signUp(null, {
     success: function(user) {
-      // Say hello to new user
+      // Redirect to main screen
       res.redirect('/');
     },
     error: function(user, error) {

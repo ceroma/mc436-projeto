@@ -21,12 +21,6 @@ app.use(express.bodyParser());        // Middleware for reading request body
 app.use(express.cookieParser('SECRET'));
 app.use(parseExpressCookieSession({ cookie: { maxAge: 3600000 } })); // 1h
 
-// This is an example of hooking up a request handler with a specific request
-// path and HTTP verb using the Express routing API.
-app.get('/hello', function(req, res) {
-  res.render('hello', { message: 'Congrats, you just set up your app!' });
-});
-
 // Sign Up
 app.get('/signup', signUpController.index);
 app.post('/signup', signUpController.createNewUser);
