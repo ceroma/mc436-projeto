@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CompreFacil.com</title>
+  </head>
+  <body>
+    <p>Olá, <%= user.get('name') %>!</p>
+    <p>Produtos disponíveis:</p>
+    <ul>
+      <% products.forEach(function(product) { %>
+        <li> <%= product.get('name') + ' - R$' + product.get('price') %> </li>
+      <% }); %>
+    </ul>
+    <a href="/logout">Sair</a>
+  </body>
+</html>

@@ -4,6 +4,7 @@ var app = express();
 
 // Controllers
 var homeController = require('cloud/controllers/home.js');
+var shopController = require('cloud/controllers/shop.js');
 var logInController = require('cloud/controllers/login.js');
 var logOutController = require('cloud/controllers/logout.js');
 var signUpController = require('cloud/controllers/signup.js');
@@ -40,6 +41,9 @@ app.get('/logout', logOutController.logOut);
 
 // Home Screen
 app.get('/', homeController.index);
+
+// Shop Screen
+app.get('/shop', shopController.index);
 
 // Attach the Express app to Cloud Code.
 app.listen();
