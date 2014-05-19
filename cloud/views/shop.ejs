@@ -5,6 +5,12 @@
   </head>
   <body>
     <p>Olá, <%= user.get('name') %>!</p>
+    <% if (pending_cart) { %>
+      <p>
+        Você tem um carrinho pendente!
+        <a href="<%= '/cart/' + pending_cart.id %>">Ver Carrinho</a>
+      </p>
+    <% } %>
     <p>Produtos disponíveis:</p>
     <form method="post" action="/cart/create">
       <ul>
