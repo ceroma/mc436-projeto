@@ -6,11 +6,19 @@
   <body>
     <p>Olá, <%= user.get('name') %>!</p>
     <p>Produtos disponíveis:</p>
-    <ul>
-      <% products.forEach(function(product) { %>
-        <li> <%= product.get('name') + ' - R$' + product.get('price') %> </li>
-      <% }); %>
-    </ul>
+    <form method="post" action="/cart/create">
+      <ul>
+        <% products.forEach(function(product) { %>
+          <li>
+            <%= product.get('name') + ' - R$' + product.get('price') %>
+            <input name="products[]" type="hidden" value="<%= product.id %>">
+            <input name="quantities[]" type="number" min="0" max="99" value="0">
+          </li>
+        <% }); %>
+      </ul>
+      <input type="submit" value="Comprar">
+    </form>
+    <br />
     <a href="/logout">Sair</a>
   </body>
 </html>

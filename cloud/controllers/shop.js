@@ -2,8 +2,8 @@ var Product = Parse.Object.extend('Product');
 
 // Renders the shop if user is logged in
 exports.index = function(req, res) {
+  // Redirect to login if not logged in
   if (!Parse.User.current()) {
-    // Redirect to login if not logged in
     res.redirect('/login');
     return;
   }

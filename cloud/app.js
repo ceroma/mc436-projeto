@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 
 // Controllers
+var cartController = require('cloud/controllers/cart.js');
 var homeController = require('cloud/controllers/home.js');
 var shopController = require('cloud/controllers/shop.js');
 var logInController = require('cloud/controllers/login.js');
@@ -38,6 +39,9 @@ app.get('/', homeController.index);
 
 // Shop Screen
 app.get('/shop', shopController.index);
+
+// Cart Manipulations
+app.post('/cart/create', cartController.create);
 
 // Attach the Express app to Cloud Code.
 app.listen();
