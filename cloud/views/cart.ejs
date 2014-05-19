@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CompreFacil.com</title>
+  </head>
+  <body>
+    <p>Seu carrinho:</p>
+    <ul>
+      <% var total_price = 0; %>
+      <% products.forEach(function(product) { %>
+        <li>
+          <%= product.quantity + ' x ' + product.name + ' = ' %>
+          <%= 'R$' + product.quantity * product.pricePerUnit %>
+          <% total_price += product.quantity * product.pricePerUnit; %>
+        </li>
+      <% }); %>
+    </ul>
+    <p>Total: <%= 'R$' + total_price %></p>
+  </body>
+</html>

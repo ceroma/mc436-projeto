@@ -1,5 +1,59 @@
-var Cart = Parse.Object.extend('Cart');
+var Cart = Parse.Object.extend('Cart', {
+  isVisible: function() {
+    // Can't see cart after 1h without buying it
+    var one_hour_in_ms = 60 * 60 * 1000;
+    var now = (new Date()).getTime();
+    var creation_time = (new Date(this.createdAt)).getTime();
+    return (now - creation_time) < one_hour_in_ms;
+  }
+});
 var Product = Parse.Object.extend('Product');
+
+// Renders a given cart
+exports.show = function(req, res) {
+  // Redirect to login if not logged in
+  if (!Parse.User.current()) {
+    res.redirect('/login');
+    return;
+  }
+
+  var cart_id = req.params.id;
+
+  var current_cart;
+  var query = new Parse.Query(Cart);
+  query.get(cart_id).then(function(cart) {
+    // First check whether cart is still visible
+    if (!cart.isVisible()) {
+      return Parse.Promise.error();
+    }
+
+    // Now fetch the products in this cart
+    current_cart = cart;
+    var query = new Parse.Query(Product);
+    query.containedIn('objectId', cart.get('products'));
+    return query.find();
+
+  }).then(function(products) {
+    // Prepare rendering data
+    var product_to_name = {};
+    products.forEach(function(product) {
+      product_to_name[product.id] = product.get('name');
+    });
+    var products_data = [];
+    for (var i = 0; i < current_cart.get('products').length; i++) {
+      products_data.push({
+        quantity : current_cart.get('quantities')[i],
+        pricePerUnit : current_cart.get('pricesPerUnit')[i],
+        name : product_to_name[current_cart.get('products')[i]]
+      });
+    }
+
+    res.render('cart', { products : products_data });
+  }, function(error) {
+    // Redirect back to shop if user can't see this cart
+    res.redirect('/shop');
+  });
+};
 
 // Creates a new cart
 exports.create = function(req, res) {
@@ -74,7 +128,7 @@ exports.create = function(req, res) {
     return current_user.save();
 
   }).then(function(user) {
-    res.redirect('/shop');
+    res.redirect('/cart/' + current_user.get('lastCart').id);
   }, function(error) {
     res.send(500, 'Failed creating new cart');
   });

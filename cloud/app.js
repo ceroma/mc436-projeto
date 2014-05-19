@@ -41,6 +41,7 @@ app.get('/', homeController.index);
 app.get('/shop', shopController.index);
 
 // Cart Manipulations
+app.get('/cart/:id', cartController.show);
 app.post('/cart/create', cartController.create);
 
 // Attach the Express app to Cloud Code.
