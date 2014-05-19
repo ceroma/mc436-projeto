@@ -9,6 +9,7 @@ var shopController = require('cloud/controllers/shop.js');
 var logInController = require('cloud/controllers/login.js');
 var logOutController = require('cloud/controllers/logout.js');
 var signUpController = require('cloud/controllers/signup.js');
+var purchaseController = require('cloud/controllers/purchase.js');
 
 // HTTPS and Cookie middlewares
 var parseExpressHttpsRedirect = require('parse-express-https-redirect');
@@ -43,6 +44,8 @@ app.get('/shop', shopController.index);
 // Cart Manipulations
 app.get('/cart/:id', cartController.show);
 app.post('/cart/create', cartController.create);
+app.get('/cart/:id/buy', purchaseController.selectMethod);
+app.post('/cart/:id/buy', purchaseController.finalize);
 
 // Attach the Express app to Cloud Code.
 app.listen();

@@ -1,5 +1,10 @@
 var Cart = Parse.Object.extend('Cart', {
-  isVisible: function() {
+  canRemind: function() {
+    // Don't remind if it was already bought
+    if (this.get('purchase')) {
+      return false;
+    }
+
     // Can't see cart after 1h without buying it
     var one_hour_in_ms = 60 * 60 * 1000;
     var now = (new Date()).getTime();
@@ -39,7 +44,7 @@ exports.index = function(req, res) {
     res.render('shop', {
       user : current_user,
       products : products,
-      pending_cart : (last_cart && last_cart.isVisible()) ? last_cart : null
+      pending_cart : (last_cart && last_cart.canRemind()) ? last_cart : null
     });
   }, function(error) {
     res.send(500, 'Failed loading list of products');

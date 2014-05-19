@@ -1,5 +1,10 @@
 var Cart = Parse.Object.extend('Cart', {
-  isVisible: function() {
+  canShow: function() {
+    // If user bought this cart, can see it again
+    if (this.get('purchase')) {
+      return true;
+    }
+
     // Can't see cart after 1h without buying it
     var one_hour_in_ms = 60 * 60 * 1000;
     var now = (new Date()).getTime();
@@ -22,15 +27,24 @@ exports.show = function(req, res) {
   var current_cart;
   var query = new Parse.Query(Cart);
   query.get(cart_id).then(function(cart) {
-    // First check whether cart is still visible
-    if (!cart.isVisible()) {
+    current_cart = cart;
+
+    // First check whether user can see cart
+    if (!cart.canShow()) {
       return Parse.Promise.error();
     }
 
+    // Then fetch purchase data, if existent
+    if (cart.get('purchase')) {
+      return cart.get('purchase').fetch();
+    } else {
+      return Parse.Promise.as();
+    }
+
+  }).then(function(purchase) {
     // Now fetch the products in this cart
-    current_cart = cart;
     var query = new Parse.Query(Product);
-    query.containedIn('objectId', cart.get('products'));
+    query.containedIn('objectId', current_cart.get('products'));
     return query.find();
 
   }).then(function(products) {
@@ -48,7 +62,11 @@ exports.show = function(req, res) {
       });
     }
 
-    res.render('cart', { products : products_data });
+    res.render('cart', {
+      cart_id : current_cart.id,
+      products : products_data,
+      purchase : current_cart.get('purchase'),
+    });
   }, function(error) {
     // Redirect back to shop if user can't see this cart
     res.redirect('/shop');

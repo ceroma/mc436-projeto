@@ -16,5 +16,11 @@
       <% }); %>
     </ul>
     <p>Total: <%= 'R$' + total_price %></p>
+    <% if (!purchase) { %>
+      <p><a href="<%= '/cart/' + cart_id + '/buy' %>">Prosseguir</a></p>
+    <% } else { %>
+      <p>Compra efetuada em: <%= purchase.createdAt %></p>
+      <p>Método de pagamento: <%= purchase.get('method') %></p>
+    <% } %>
   </body>
 </html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CompreFacil.com</title>
+  </head>
+  <body>
+    <p>Valor total: <%= 'R$' + total %></p>
+    <p>Selecione o método de pagamento:</p>
+    <form method="post" action="<%= '/cart/' + cart_id + '/buy' %>">
+      <input type="radio" name="method" value="CARTAO">
+      Cartão
+      <br />
+      <br />
+      <input type="radio" name="method" value="BOLETO">
+      Boleto
+      <br />
+      <br />
+      <input type="submit" value="Comprar">
+    </form>
+  </body>
+</html>
