@@ -2,6 +2,9 @@
 <html>
   <head>
     <title>Cadastrar</title>
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
   </head>
   <body>
     <!-- Facebook SDK -->
@@ -23,6 +26,8 @@
        }(document, 'script', 'facebook-jssdk'));
     </script>
     <div id="fb-root"></div>
+
+    <% include navbar %>
 
     <fb:registration
       redirect_uri="https://mc436-1s2014.parseapp.com/signup"

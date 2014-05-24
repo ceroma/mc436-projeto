@@ -2,8 +2,13 @@
 <html>
   <head>
     <title>CompreFacil.com</title>
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
   </head>
   <body>
+    <% include navbar %>
+
     <p>Olá, <%= user.get('name') %>!</p>
     <% if (pending_cart) { %>
       <p>
@@ -24,7 +29,5 @@
       </ul>
       <input type="submit" value="Comprar">
     </form>
-    <br />
-    <a href="/logout">Sair</a>
   </body>
 </html>
