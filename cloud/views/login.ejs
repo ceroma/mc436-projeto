@@ -3,6 +3,7 @@
   <head>
     <title>Entrar</title>
     <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
@@ -33,14 +34,38 @@
 
     <% include navbar %>
 
-    <form method="post" action="/login">
-      <input name="username" placeholder="E-mail" type="email">
-      <input name="password" placeholder="Senha" type="password">
-      <input type="submit" value="Entrar">
-    </form>
-    <a id="fblogin" href="#">Entrar com Facebook</a>
-    <br />
-    <a href="/signup">Cadastrar</a>
+    <div class="container">
+      <div class="login-form panel panel-default">
+        <div class="panel-body">
+          <form method="post" action="/login">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                name="username"
+                placeholder="E-mail">
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Senha">
+            </div>
+            <input
+              type="submit"
+              class="btn btn-primary form-control"
+              value="Entrar">
+          </form>
+        </div>
+        <div class="panel-footer">
+          <a id="fblogin" href="#" class="btn btn-block btn-primary">
+            Entrar com Facebook
+          </a>
+          <a href="/signup" class="btn btn-block btn-warning">Cadastrar</a>
+        </div>
+      </div>
+    </div>
 
     <!-- Log In With Facebook -->
     <script>
