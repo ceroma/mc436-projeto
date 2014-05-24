@@ -1,0 +1,9 @@
+.product .input-group {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.product .input-group .input-sm {
+  padding-left: 25px;
+  text-align: center;
+}
