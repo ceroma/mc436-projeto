@@ -6,6 +6,7 @@ var FORM_FIELDS = JSON.stringify(
   [
     {'name': 'name'},
     {'name': 'email'},
+    {'name': 'address', 'description': 'Endereço', 'type': 'text'},
     {'name': 'password'},
     {'name': 'captcha'}
   ]
@@ -34,6 +35,7 @@ exports.createNewUser = function(req, res) {
   var new_user = new Parse.User();
   new_user.set("name", registration_data.name);
   new_user.set("email", registration_data.email);
+  new_user.set("address", registration_data.address);
   new_user.set("username", registration_data.email);
   new_user.set("password", registration_data.password);
 

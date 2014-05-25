@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CompreFacil.com</title>
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <% include components/navbar %>
+
+    <div class="container">
+
+      <!-- Friendly Notice -->
+      <% if (show_alert) { %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-warning">
+              <%= user.get('name').split(' ')[0] %>,
+              atualize suas informações para continuar!
+            </div>
+          </div>
+        </div>
+      <% } %>
+
+      <div class="row">
+
+        <div class="col-md-6 col-md-offset-3">
+          <div class="panel panel-info">
+
+            <div class="panel-heading text-center">
+              Atualizar Informações
+            </div>
+
+            <div class="panel-body">
+              <form method="post" action="/update">
+                <% var email = user.get('email'); %>
+                <% var address = user.get('address'); %>
+                <% if (!email || email.length <= 0) { %>
+                  <div class="form-group">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="E-mail">
+                  </div>
+                <% } %>
+                <% if (!address || address.length <= 0) { %>
+                  <div class="form-group">
+                    <textarea
+                      rows="2"
+                      class="form-control"
+                      name="address"
+                      placeholder="Endereço"></textarea>
+                  </div>
+                <% } %>
+                <input
+                  type="submit"
+                  class="btn btn-primary form-control"
+                  value="Salvar">
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

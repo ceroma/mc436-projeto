@@ -14,6 +14,8 @@ var Cart = Parse.Object.extend('Cart', {
 });
 var Purchase = Parse.Object.extend('Purchase');
 
+var ERROR_UPDATE_USER_INFO = 1;
+
 // Asks users for a payment method
 exports.selectMethod = function(req, res) {
   // Redirect to login if not logged in
@@ -24,8 +26,16 @@ exports.selectMethod = function(req, res) {
 
   var cart_id = req.params.id;
 
-  var query = new Parse.Query(Cart);
-  query.get(cart_id).then(function(cart) {
+  Parse.User.current().fetch().then(function(user) {
+    // Can only buy if user has address and email
+    if (!user.get('email') || !user.get('address')) {
+      return Parse.Promise.error(ERROR_UPDATE_USER_INFO);
+    }
+
+    var query = new Parse.Query(Cart);
+    return query.get(cart_id);
+
+  }).then(function(cart) {
     // First check whether user can buy cart
     if (!cart.canBuy()) {
       return Parse.Promise.error();
@@ -39,8 +49,13 @@ exports.selectMethod = function(req, res) {
 
     res.render('purchase', { cart_id : cart.id, total : total });
   }, function(error) {
-    // Redirect back to shop if user can't see this cart
-    res.redirect('/shop');
+    if (error == ERROR_UPDATE_USER_INFO) {
+      // Redirect user to update page
+      res.redirect('/update?cart=' + cart_id);
+    } else {
+      // Redirect back to shop if user can't see this cart
+      res.redirect('/shop');
+    }
   });
 };
 
@@ -77,6 +92,11 @@ exports.finalize = function(req, res) {
       return Parse.Promise.error();
     }
 
+    // Can only buy if user has address and email
+    if (!user.get('email') || !user.get('address')) {
+      return Parse.Promise.error(ERROR_UPDATE_USER_INFO);
+    }
+
     // Create the purchase entry
     var new_purchase = new Purchase();
     new_purchase.set('method', purchase_method);
@@ -97,8 +117,13 @@ exports.finalize = function(req, res) {
   }).then(function() {
     res.redirect('/shop');
   }, function(error) {
-    // Redirect back to shop if user can't see this cart
-    res.redirect('/shop');
+    if (error == ERROR_UPDATE_USER_INFO) {
+      // Redirect user to update page
+      res.redirect('/update?cart=' + cart_id);
+    } else {
+      // Redirect back to shop if user can't see this cart
+      res.redirect('/shop');
+    }
   });
 };
 

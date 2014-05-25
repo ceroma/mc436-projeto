@@ -9,6 +9,7 @@ var shopController = require('cloud/controllers/shop.js');
 var logInController = require('cloud/controllers/login.js');
 var logOutController = require('cloud/controllers/logout.js');
 var signUpController = require('cloud/controllers/signup.js');
+var updateController = require('cloud/controllers/update.js');
 var purchaseController = require('cloud/controllers/purchase.js');
 
 // HTTPS and Cookie middlewares
@@ -49,6 +50,10 @@ app.post('/cart/:id/buy', purchaseController.finalize);
 
 // Purchase History
 app.get('/history', purchaseController.showHistory);
+
+// Update Info
+app.get('/update', updateController.index);
+app.post('/update', updateController.updateInfo);
 
 // Attach the Express app to Cloud Code.
 app.listen();
