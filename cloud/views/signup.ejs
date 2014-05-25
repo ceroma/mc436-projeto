@@ -29,9 +29,12 @@
 
     <% include components/navbar %>
 
-    <fb:registration
-      redirect_uri="https://mc436-1s2014.parseapp.com/signup"
-      fields="<%- form_fields %>"
-    />
+    <div class="container">
+      <fb:registration
+        redirect_uri="https://mc436-1s2014.parseapp.com/signup"
+        fields="<%- form_fields %>"
+        class="col-md-offset-2 col-lg-offset-3"
+      />
+    </div>
   </body>
 </html>
