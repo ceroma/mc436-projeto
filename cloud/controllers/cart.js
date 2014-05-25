@@ -50,15 +50,18 @@ exports.show = function(req, res) {
   }).then(function(products) {
     // Prepare rendering data
     var product_to_name = {};
+    var product_to_source = {};
     products.forEach(function(product) {
       product_to_name[product.id] = product.get('name');
+      product_to_source[product.id] = product.get('imageSrc');
     });
     var products_data = [];
     for (var i = 0; i < current_cart.get('products').length; i++) {
       products_data.push({
         quantity : current_cart.get('quantities')[i],
         pricePerUnit : current_cart.get('pricesPerUnit')[i],
-        name : product_to_name[current_cart.get('products')[i]]
+        name : product_to_name[current_cart.get('products')[i]],
+        imageSrc : product_to_source[current_cart.get('products')[i]]
       });
     }
 

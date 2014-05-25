@@ -3,29 +3,81 @@
   <head>
     <title>CompreFacil.com</title>
     <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/cart.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
   </head>
   <body>
     <% include components/navbar %>
 
-    <p>Seu carrinho:</p>
-    <ul>
-      <% var total_price = 0; %>
-      <% products.forEach(function(product) { %>
-        <li>
-          <%= product.quantity + ' x ' + product.name + ' = ' %>
-          <%= 'R$' + product.quantity * product.pricePerUnit %>
-          <% total_price += product.quantity * product.pricePerUnit; %>
-        </li>
-      <% }); %>
-    </ul>
-    <p>Total: <%= 'R$' + total_price %></p>
-    <% if (!purchase) { %>
-      <p><a href="<%= '/cart/' + cart_id + '/buy' %>">Prosseguir</a></p>
-    <% } else { %>
-      <p>Compra efetuada em: <%= purchase.createdAt %></p>
-      <p>Método de pagamento: <%= purchase.get('method') %></p>
-    <% } %>
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-6 col-md-offset-1">
+          <div class="panel panel-info">
+
+            <div class="panel-heading text-center">
+              Carrinho
+            </div>
+
+            <table class="table table-bordered">
+              <tbody>
+                <% var total_price = 0; %>
+                <% products.forEach(function(product) { %>
+                  <% total_price += product.quantity * product.pricePerUnit; %>
+                  <tr>
+                    <td class="image-column">
+                      <img src="<%= product.imageSrc %>" class="img-responsive">
+                    </td>
+                    <td>
+                      <p class="text-right">
+                        <strong><%= product.name %></strong>
+                      </p>
+                      <p class="text-right">
+                        Quantidade: <%= product.quantity %>
+                      </p>
+                      <p class="text-right">
+                        Preço Unitário: R$<%= product.pricePerUnit %>
+                      </p>
+                      <p class="text-right">
+                        Total: R$<%= product.quantity * product.pricePerUnit %>
+                      </p>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- Summary Column -->
+        <div class="col-md-4">
+          <div class="alert alert-info affix">
+            <p class="text-center">
+              <strong>Total:</strong> R$<%= total_price %>
+            </p>
+            <% if (!purchase) { %>
+              <p class="text-center">
+                <a href="<%= '/cart/' + cart_id + '/buy' %>">Pagar Compra</a>
+              </p>
+            <% } else { %>
+              <% var d = new Date(purchase.createdAt); %>
+              <p class="text-center">
+                <strong>Método: </strong><%= purchase.get('method') %>
+              </p>
+              <p class="text-center">
+                <strong>Comprado em: </strong>
+                <%=
+                  d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+                %>
+                <%= d.getHours() + ':' + d.getMinutes() %>
+              </p>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </body>
 </html>
