@@ -101,3 +101,24 @@ exports.finalize = function(req, res) {
     res.redirect('/shop');
   });
 };
+
+// Renders history of purchases
+exports.showHistory = function(req, res) {
+  // Redirect to login if not logged in
+  if (!Parse.User.current()) {
+    res.redirect('/login');
+    return;
+  }
+
+  var query = new Parse.Query(Purchase);
+  query.find().then(function(purchases) {
+    if (!purchases || purchases.length <= 0) {
+      res.redirect('/shop');
+    } else {
+      res.render('history', { purchases : purchases });
+    }
+  }, function(error) {
+    // Redirect back to shop if something went wrong
+    res.redirect('/shop');
+  });
+};

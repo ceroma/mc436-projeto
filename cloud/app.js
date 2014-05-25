@@ -47,5 +47,8 @@ app.post('/cart/create', cartController.create);
 app.get('/cart/:id/buy', purchaseController.selectMethod);
 app.post('/cart/:id/buy', purchaseController.finalize);
 
+// Purchase History
+app.get('/history', purchaseController.showHistory);
+
 // Attach the Express app to Cloud Code.
 app.listen();
