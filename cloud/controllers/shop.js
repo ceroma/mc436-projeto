@@ -35,8 +35,14 @@ exports.index = function(req, res) {
     }
 
   }).then(function() {
-    // Fetch all available products
+    // Fetch all available products..
     var query = new Parse.Query(Product);
+
+    // .. or just the ones that match the search
+    if (req.query.q) {
+      query.matches('name', req.query.q, 'i');
+    }
+
     return query.find();
 
   }).then(function(products) {
@@ -44,6 +50,7 @@ exports.index = function(req, res) {
     res.render('shop', {
       user : current_user,
       products : products,
+      search_query : req.query.q,
       pending_cart : (last_cart && last_cart.canRemind()) ? last_cart : null
     });
   }, function(error) {
