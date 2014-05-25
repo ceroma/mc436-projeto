@@ -9,18 +9,36 @@
   <body>
     <% include components/navbar %>
 
-    <p>Valor total: <%= 'R$' + total %></p>
-    <p>Selecione o método de pagamento:</p>
-    <form method="post" action="<%= '/cart/' + cart_id + '/buy' %>">
-      <input type="radio" name="method" value="CARTAO">
-      Cartão
-      <br />
-      <br />
-      <input type="radio" name="method" value="BOLETO">
-      Boleto
-      <br />
-      <br />
-      <input type="submit" value="Comprar">
-    </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+          <div class="panel panel-info">
+            <div class="panel-heading text-center">
+              Selecione o Método de Pagamento
+            </div>
+            <div class="panel-body text-center">
+              <strong>Valor Total:</strong> R$<%= total %>
+            </div>
+            <div class="panel-footer text-center">
+              <form method="post" action="<%= '/cart/' + cart_id + '/buy' %>">
+                <input type="radio" name="method" value="Boleto">
+                  Boleto
+                <br />
+                <br />
+                <input type="radio" name="method" value="Crédito">
+                  Crédito
+                <br />
+                <br />
+                <input type="radio" name="method" value="Débito">
+                  Débito
+                <br />
+                <br />
+                <input type="submit" class="btn btn-success btn-block" value="Comprar">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
