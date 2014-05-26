@@ -7,3 +7,49 @@
   padding-left: 25px;
   text-align: center;
 }
+
+.microphone-icon {
+  background: #fff;
+  border: 2px solid #999;
+  border-radius: 10px;
+  height: 13px;
+  position: absolute;
+  right: 110px;
+  top: 12px;
+  width: 6px;
+  z-index: 10;
+}
+
+.microphone-icon::after {
+  border: 2px solid #999;
+  border-radius: 0 0 10px 10px;
+  border-top: 0;
+  bottom: -6px;
+  content: '';
+  height: 8px;
+  left: -6px;
+  position: absolute;
+  width: 14px;
+}
+
+.microphone-icon::before {
+  background: #999;
+  bottom: -10px;
+  content: '';
+  height: 4px;
+  position: absolute;
+  width: 2px;
+}
+
+.microphone-icon.recording {
+  border: 2px solid #f00;
+}
+
+.microphone-icon.recording::after {
+  border: 2px solid #f00;
+  border-top: 0;
+}
+
+.microphone-icon.recording::before {
+  background: #f00;
+}
