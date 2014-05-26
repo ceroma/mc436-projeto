@@ -83,6 +83,7 @@
       <br />
       <% if (products && products.length > 0) { %>
         <form method="post" action="/cart/create">
+          <input type="hidden" name="_csrf" value="<%= csrf_token %>">
           <div class="row">
             <% for (var i = 0; i < 4; i++) { %>
               <div class="col-md-3">

@@ -22,7 +22,28 @@ app.set('view engine', 'ejs');        // Set the template engine
 app.use(parseExpressHttpsRedirect()); // Force user to be on HTTPS
 app.use(express.bodyParser());        // Middleware for reading request body
 app.use(express.cookieParser('SECRET'));
+app.use(express.cookieSession({
+  secret : 'SECRET2',
+  cookie : { secure: true },
+  proxy: true
+}));
 app.use(parseExpressCookieSession({ cookie: { maxAge: 3600000 } })); // 1h
+
+// Custom CSRF middleware to disable the check on registration via FB
+app.use(function(req, res, next) {
+  var FACEBOOK_ORIGIN = 'https://www.facebook.com';
+  if (req.path == '/signup' && req.get('origin') == FACEBOOK_ORIGIN) {
+    next();
+  } else {
+    express.csrf()(req, res, next);
+  }
+});
+
+// Custom middleware to make CSRF token available to all templates
+app.use(function(req, res, next) {
+  res.locals.csrf_token = req.session._csrf;
+  next();
+});
 
 // Sign Up
 app.get('/signup', signUpController.index);
@@ -34,7 +55,7 @@ app.post('/login', logInController.logIn);
 app.post('/login-facebook', logInController.logInFacebook);
 
 // Log Out
-app.get('/logout', logOutController.logOut);
+app.post('/logout', logOutController.logOut);
 
 // Home Screen
 app.get('/', homeController.index);

@@ -39,6 +39,7 @@
       <div class="login-form panel panel-default">
         <div class="panel-body">
           <form method="post" action="/login">
+            <input type="hidden" name="_csrf" value="<%= csrf_token %>">
             <div class="form-group">
               <input
                 type="email"
@@ -85,7 +86,7 @@
             // Authenticate on server-side
             $.post(
               '/login-facebook',
-              {token: user.getSessionToken()},
+              {token: user.getSessionToken(), _csrf: '<%= csrf_token %>'},
               function(data, status) { window.location = "/"; }
             );
           }

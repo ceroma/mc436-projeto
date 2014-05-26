@@ -35,6 +35,7 @@
 
             <div class="panel-body">
               <form method="post" action="/update">
+                <input type="hidden" name="_csrf" value="<%= csrf_token %>">
                 <% var email = user.get('email'); %>
                 <% var address = user.get('address'); %>
                 <% if (!email || email.length <= 0) { %>

@@ -4,9 +4,17 @@
       <a href="/" class="navbar-brand">CompreFacil.com</a>
     </div>
     <% if (Parse.User.current()) { %>
-      <p class="navbar-text navbar-right">
-        <a href="/logout" class="navbar-link">Sair</a>
-      </p>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <form method="post" action="/logout">
+          <input type="hidden" name="_csrf" value="<%= csrf_token %>">
+          <input
+            type="submit"
+            class="btn btn-link navbar-btn navbar-link"
+            value="Sair">
+          </form>
+        </li>
+      </ul>
     <% } %>
   </div>
 </div>

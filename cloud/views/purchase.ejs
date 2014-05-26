@@ -22,6 +22,7 @@
             </div>
             <div class="panel-footer text-center">
               <form method="post" action="<%= '/cart/' + cart_id + '/buy' %>">
+                <input type="hidden" name="_csrf" value="<%= csrf_token %>">
                 <input type="radio" name="method" value="Boleto">
                   Boleto
                 <br />
