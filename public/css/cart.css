@@ -3,6 +3,18 @@
   width: 242px;
 }
 
-.alert.affix {
-  width: 293px;
+.table .text-column {
+  min-width: 160px;
+}
+
+@media (min-width: 992px) {
+  .alert.affix {
+    width: 293px;
+  }
+}
+
+@media (max-width: 768px) {
+  .alert.affix {
+    position: static;
+  }
 }

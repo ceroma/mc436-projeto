@@ -6,6 +6,7 @@
     <link href="/css/cart.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <% include components/navbar %>
@@ -13,7 +14,7 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-md-6 col-md-offset-1">
+        <div class="col-md-6 col-md-offset-1 col-sm-8">
           <div class="panel panel-info">
 
             <div class="panel-heading text-center">
@@ -29,7 +30,7 @@
                     <td class="image-column">
                       <img src="<%= product.imageSrc %>" class="img-responsive">
                     </td>
-                    <td>
+                    <td class="text-column">
                       <p class="text-right">
                         <strong><%= product.name %></strong>
                       </p>
@@ -52,7 +53,7 @@
         </div>
 
         <!-- Summary Column -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-3">
           <div class="alert alert-info affix">
             <p class="text-center">
               <strong>Total:</strong> R$<%= total_price %>

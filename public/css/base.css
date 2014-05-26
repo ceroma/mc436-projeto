@@ -1,4 +1,13 @@
-body {
-  padding-bottom: 40px;
-  padding-top: 70px;
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 40px;
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 40px;
+    padding-top: 120px;
+  }
 }
