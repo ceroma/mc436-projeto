@@ -63,16 +63,13 @@
                 <a href="<%= '/cart/' + cart_id + '/buy' %>">Pagar Compra</a>
               </p>
             <% } else { %>
-              <% var d = new Date(purchase.createdAt); %>
+              <% var m = moment(purchase.createdAt).subtract('hours', 3); %>
               <p class="text-center">
                 <strong>Método: </strong><%= purchase.get('method') %>
               </p>
               <p class="text-center">
                 <strong>Comprado em: </strong>
-                <%=
-                  d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
-                %>
-                <%= d.getHours() + ':' + d.getMinutes() %>
+                <%= m.format('DD/MM/YYYY HH:mm') %>
               </p>
             <% } %>
           </div>

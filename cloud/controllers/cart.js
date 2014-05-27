@@ -67,6 +67,7 @@ exports.show = function(req, res) {
 
     res.render('cart', {
       cart_id : current_cart.id,
+      moment : require('moment'),
       products : products_data,
       purchase : current_cart.get('purchase'),
     });

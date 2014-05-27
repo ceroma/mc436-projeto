@@ -23,14 +23,11 @@
             <div class="list-group">
               <% var wd = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']; %>
               <% purchases.forEach(function(purchase) { %>
-                <% var d = new Date(purchase.createdAt); %>
+                <% var m = moment(purchase.createdAt).subtract('hours', 3); %>
                 <a
                   class="list-group-item text-center"
                   href="<%= '/cart/'+ purchase.get('cart').id %>">
-                  <% var month = d.getMonth() + 1; %>
-                  <%= wd[d.getDay()] %>
-                  <%= d.getDate() + '/' + month + '/' + d.getFullYear() %>
-                  <%= d.getHours() + ':' + d.getMinutes() %>
+                  <%= wd[m.day()] + ' ' +  m.format('DD/MM/YYYY HH:mm') %>
                 </a>
               <% }); %>
             </div>

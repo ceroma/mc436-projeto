@@ -140,7 +140,10 @@ exports.showHistory = function(req, res) {
     if (!purchases || purchases.length <= 0) {
       res.redirect('/shop');
     } else {
-      res.render('history', { purchases : purchases });
+      res.render('history', {
+        moment : require('moment'),
+        purchases : purchases
+      });
     }
   }, function(error) {
     // Redirect back to shop if something went wrong
