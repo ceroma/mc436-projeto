@@ -14,8 +14,23 @@
 
     <div class="container">
 
+      <!-- Recent Purchase -->
+      <% if (purchased_cart) { %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="reminder" class="alert alert-success alert-dismissable">
+              <button type="button" class="close" onclick="dismissReminder();">
+                &times;
+              </button>
+              Compra realizada com sucesso!
+              <a href="<%= '/cart/' + purchased_cart %>" class="alert-link">
+                Ver Compra
+              </a>
+            </div>
+          </div>
+        </div>
       <!-- Search Error -->
-      <% if (!products || products.length <= 0) { %>
+      <% } else if (!products || products.length <= 0) { %>
         <div class="row">
           <div class="col-md-6 col-md-offset-3">
             <div id="reminder" class="alert alert-danger alert-dismissable">
@@ -36,7 +51,7 @@
               </button>
               <%= user.get('name').split(' ')[0] %>,
               você tem um carrinho pendente!
-              <a href="<%= '/cart/' + pending_cart.id %>" class="alert-link">
+              <a href="<%= '/cart/' + pending_cart %>" class="alert-link">
                 Ver Carrinho
               </a>
             </div>

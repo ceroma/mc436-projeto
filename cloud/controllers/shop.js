@@ -22,12 +22,32 @@ exports.index = function(req, res) {
     return;
   }
 
+  var last_cart;
   var current_user;
+  var purchased_cart;
   Parse.User.current().fetch().then(function(user) {
     current_user = user;
+    last_cart = current_user.get('lastCart');
+
+    // Check whether we just came from a purchase
+    if (req.query.cart) {
+      var query = new Parse.Query(Cart);
+      return query.get(req.query.cart);
+    } else {
+      return Parse.Promise.error();
+    }
+
+  }).then(function(cart) {
+    // User can see the purchased cart, we'll show success notice
+    last_cart = null;
+    purchased_cart = cart;
+    return Parse.Promise.as();
+
+  }, function(error) {
+    // No purchase, or user can't see cart, or invalid cart ID
+    purchased_cart = null;
 
     // Fetch last cart, so we can remind user
-    var last_cart = user.get('lastCart');
     if (last_cart) {
       return last_cart.fetch();
     } else {
@@ -46,12 +66,12 @@ exports.index = function(req, res) {
     return query.find();
 
   }).then(function(products) {
-    var last_cart = current_user.get('lastCart');
     res.render('shop', {
       user : current_user,
       products : products,
       search_query : req.query.q,
-      pending_cart : (last_cart && last_cart.canRemind()) ? last_cart : null
+      purchased_cart : purchased_cart ? purchased_cart.id : null,
+      pending_cart : (last_cart && last_cart.canRemind()) ? last_cart.id : null
     });
   }, function(error) {
     res.send(500, 'Failed loading list of products');

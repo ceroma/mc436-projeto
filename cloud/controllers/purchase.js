@@ -115,7 +115,7 @@ exports.finalize = function(req, res) {
     return current_user.save();
 
   }).then(function() {
-    res.redirect('/shop');
+    res.redirect('/shop?cart=' + cart_id);
   }, function(error) {
     if (error == ERROR_UPDATE_USER_INFO) {
       // Redirect user to update page
