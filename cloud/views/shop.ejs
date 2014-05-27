@@ -14,8 +14,20 @@
 
     <div class="container">
 
+      <!-- Search Error -->
+      <% if (!products || products.length <= 0) { %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="reminder" class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" onclick="dismissReminder();">
+                &times;
+              </button>
+              Nenhum produto encontrado, tente novamente!
+            </div>
+          </div>
+        </div>
       <!-- Cart Reminder -->
-      <% if (pending_cart) { %>
+      <% } else if (pending_cart) { %>
         <div class="row">
           <div class="col-md-6 col-md-offset-3">
             <div id="reminder" class="alert alert-warning alert-dismissable">
@@ -24,7 +36,9 @@
               </button>
               <%= user.get('name').split(' ')[0] %>,
               você tem um carrinho pendente!
-              <a href="<%= '/cart/' + pending_cart.id %>">Ver Carrinho</a>
+              <a href="<%= '/cart/' + pending_cart.id %>" class="alert-link">
+                Ver Carrinho
+              </a>
             </div>
           </div>
         </div>
@@ -52,26 +66,28 @@
 
       <!-- Products -->
       <br />
-      <form method="post" action="/cart/create">
-        <div class="row">
-          <% for (var i = 0; i < 4; i++) { %>
-            <div class="col-md-3">
-              <% for (var j = 0; 4*j+i < products.length; j++) { %>
-                <% var product = products[4*j+i]; %>
-                <% include components/product %>
-              <% } %>
-            </div>
-          <% } %>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <input
-              type="submit"
-              class="btn btn-block btn-lg btn-success"
-              value="Comprar">
+      <% if (products && products.length > 0) { %>
+        <form method="post" action="/cart/create">
+          <div class="row">
+            <% for (var i = 0; i < 4; i++) { %>
+              <div class="col-md-3">
+                <% for (var j = 0; 4*j+i < products.length; j++) { %>
+                  <% var product = products[4*j+i]; %>
+                  <% include components/product %>
+                <% } %>
+              </div>
+            <% } %>
           </div>
-        </div>
-      </form>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <input
+                type="submit"
+                class="btn btn-block btn-lg btn-success"
+                value="Comprar">
+            </div>
+          </div>
+        </form>
+      <% } %>
 
     </div>
   </body>
