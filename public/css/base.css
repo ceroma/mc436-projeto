@@ -8,6 +8,12 @@
 @media (max-width: 768px) {
   body {
     padding-bottom: 40px;
-    padding-top: 120px;
+    padding-top: 132px;
   }
+}
+
+.img-responsive {
+  height: 120px;
+  max-height: 120px;
+  margin: auto;
 }
