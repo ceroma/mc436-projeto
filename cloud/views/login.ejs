@@ -71,6 +71,15 @@
 
     <!-- Log In With Facebook -->
     <script>
+      function authenticateSessionToken(session_token) {
+        // Authenticate on server-side
+        $.post(
+          '/login-facebook',
+          {token: session_token, _csrf: '<%= csrf_token %>'},
+          function(data, status) { window.location = "/"; }
+        );
+      };
+
       $('#fblogin').click(function() {
         Parse.FacebookUtils.logIn("email", {
           success: function(user) {
@@ -79,16 +88,13 @@
               FB.api('/me?fields=name,email', function(response) {
                 user.set('name', response.name);
                 user.set('email', response.email);
-                user.save();
+                user.save().then(function(user) {
+                  authenticateSessionToken(user.getSessionToken());
+                });
               });
+            } else {
+              authenticateSessionToken(user.getSessionToken());
             }
-
-            // Authenticate on server-side
-            $.post(
-              '/login-facebook',
-              {token: user.getSessionToken(), _csrf: '<%= csrf_token %>'},
-              function(data, status) { window.location = "/"; }
-            );
           }
         });
         return false;

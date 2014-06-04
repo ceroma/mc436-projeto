@@ -31,8 +31,7 @@ app.use(parseExpressCookieSession({ cookie: { maxAge: 3600000 } })); // 1h
 
 // Custom CSRF middleware to disable the check on registration via FB
 app.use(function(req, res, next) {
-  var FACEBOOK_ORIGIN = 'https://www.facebook.com';
-  if (req.path == '/signup' && req.get('origin') == FACEBOOK_ORIGIN) {
+  if (req.path == '/signup') {
     next();
   } else {
     express.csrf()(req, res, next);
